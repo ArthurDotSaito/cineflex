@@ -5,36 +5,43 @@ import { Link, useParams } from "react-router-dom";
 
 const MovieSession = () => {
 
-    const {idMovie} = useParams();
+    const { idMovie } = useParams();
     const [movieSessionData, setMovieSessionData] = React.useState(null);
 
-    useEffect(() =>{
+    useEffect(() => {
         const movieSessionPromise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idMovie}/showtimes`);
-        movieSessionPromise.then(response => {setMovieSessionData(response.data)})
+        movieSessionPromise.then(response => { setMovieSessionData(response.data) })
     }, [idMovie])
 
-    if(movieSessionData === null){
+    if (movieSessionData === null) {
         return "Loading";
     }
 
-    return(
-        <MovieSessionContainer>
-            <h1>Selecione o horário</h1>
-            <SessionTime>
-                {movieSessionData.days.map((element) =>
-                    <SessionTimeDate key={element.id}>
-                        <h2>{element.weekday} - {element.date}</h2>
-                        <SessionTimeHourContainer>
-                            {element.showtimes.map(e =>
-                                <Link to={`/assentos/:idSessao`} >
-                                    <SessionHour>{e.name}</SessionHour>
-                                </Link>
+    return (
+        <>
+            <MovieSessionContainer>
+                <h1>Selecione o horário</h1>
+                <SessionTime>
+                    {movieSessionData.days.map((element) =>
+                        <SessionTimeDate key={element.id}>
+                            <h2>{element.weekday} - {element.date}</h2>
+                            <SessionTimeHourContainer>
+                                {element.showtimes.map(e =>
+                                    <Link to={`/assentos/:idSessao`} >
+                                        <SessionHour>{e.name}</SessionHour>
+                                    </Link>
                                 )}
-                        </SessionTimeHourContainer>
-                    </SessionTimeDate>
-                )}
-            </SessionTime>
-        </MovieSessionContainer>
+                            </SessionTimeHourContainer>
+                        </SessionTimeDate>
+                    )}
+                </SessionTime>
+                <Footer>
+                    <img src={movieSessionData.posterURL} alt='poster' />
+                    <h1>{movieSessionData.title}</h1>
+                </Footer>
+            </MovieSessionContainer>
+        </>
+
     )
 }
 
@@ -95,5 +102,25 @@ const SessionHour = styled.section`
     letter-spacing: 2%;
     color:#FFFFFF;
     
+`
+
+const Footer = styled.footer`
+    width: 100%;
+    height: 117px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #9EADBA;
+    border: 1px solid #9EADBA;
+    h1{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        line-height: 30px;
+    }
+    img{
+        height: 100px;
+        margin-left: 10px;
+    }
 `
 export default MovieSession;
