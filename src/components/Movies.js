@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Movies = () => {
-const [moviesPostList, setMoviesPostList] = React.useState("");
+const [moviesPostList, setMoviesPostList] = React.useState(undefined);
 
 useEffect(() => {
     const movieListPromise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
@@ -24,7 +24,7 @@ return(
        <MovieListSection>
         {moviesPostList.map((moviePost) =>(
             <MoviePost key={moviePost.id}>
-                <Link to={`/sessions/${moviePost.id}`}>
+                <Link to={`/sessoes/${moviePost.id}`}>
                     <img 
                         src = {moviePost.posterURL} alt="movie-post-link">
                     </img>

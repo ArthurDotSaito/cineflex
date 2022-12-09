@@ -13,7 +13,7 @@ function App() {
         <Header></Header>
         <Routes>
           <Route path="/" element={<Movies></Movies>}></Route>
-          <Route path="/sessions/:idMovie" element={<MovieSession></MovieSession>}></Route>
+          <Route path="/sessoes/:idMovie" element={<MovieSession></MovieSession>}></Route>
         </Routes>
       </AppMainContainer>
     </BrowserRouter>
