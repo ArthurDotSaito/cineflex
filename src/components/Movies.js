@@ -2,6 +2,7 @@ import axios from "axios";
 import styled from "styled-components";
 import React from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Movies = () => {
 const [moviesPostList, setMoviesPostList] = React.useState("");
@@ -23,9 +24,11 @@ return(
        <MovieListSection>
         {moviesPostList.map((moviePost) =>(
             <MoviePost key={moviePost.id}>
-                <img 
-                    src = {moviePost.posterURL} alt="movie-post-link">
-                </img>
+                <Link to={`/sessions/${moviePost.id}`}>
+                    <img 
+                        src = {moviePost.posterURL} alt="movie-post-link">
+                    </img>
+                </Link>
             </MoviePost>
         ))}
         </MovieListSection>
@@ -72,6 +75,7 @@ const MoviePost = styled.li`
     height: 209px;
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
+    margin-bottom:20px ;
     img{
         width: 129px;
         height: 193px;
