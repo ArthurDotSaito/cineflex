@@ -4,7 +4,7 @@ import React from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Movies = () => {
+const Movies = ({setUserData}) => {
 const [moviesPostList, setMoviesPostList] = React.useState(undefined);
 
 useEffect(() => {
@@ -24,7 +24,9 @@ return(
        <MovieListSection>
         {moviesPostList.map((moviePost) =>(
             <MoviePost key={moviePost.id}>
-                <Link to={`/sessoes/${moviePost.id}`}>
+                <Link 
+                    to={`/sessoes/${moviePost.id}`}
+                    onClick={() => {setUserData(values => ({...values, movieSelected:moviePost}))}}>
                     <img 
                         src = {moviePost.posterURL} alt="movie-post-link">
                     </img>

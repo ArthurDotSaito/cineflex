@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const MovieSession = () => {
+const MovieSession = ({setUserData}) => {
 
     const { idMovie } = useParams();
     const [movieSessionData, setMovieSessionData] = React.useState(null);
@@ -28,7 +28,10 @@ const MovieSession = () => {
                             <SessionTimeHourContainer>
                                 {element.showtimes.map(e =>
                                     <Link to={`/assentos/:idSessao`} >
-                                        <SessionHour>{e.name}</SessionHour>
+                                        <SessionHour 
+                                            onClick={() => setUserData(values => ({...values, day: element.date, hour:e.name}))}>
+                                            {e.name}
+                                        </SessionHour>
                                     </Link>
                                 )}
                             </SessionTimeHourContainer>
@@ -86,7 +89,7 @@ const SessionTimeHourContainer = styled.section`
     display: flex;
 
 `
-const SessionHour = styled.section`
+const SessionHour = styled.button`
     width: 82px;
     height: 43px;
     display: flex;
