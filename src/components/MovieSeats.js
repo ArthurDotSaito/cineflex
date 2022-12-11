@@ -53,6 +53,7 @@ const MovieSeats = ({userData, setUserData}) =>{
             isSelected = {selectedSeats[seat.name - 1]}
             onClick = {() => {selectSeat(seat.name, seat.isAvailable, seat.id)}}
             cursor={true}
+            data-test="seat"
             >{seat.name}
         </SeatsContainer>
     )) 
@@ -102,25 +103,28 @@ const MovieSeats = ({userData, setUserData}) =>{
                             type='text'
                             value={userData.userName}
                             placeholder="Digite o seu nome..."
-                            onChange={(element) => setUserData(values => ({ ...values, userName: element.target.value }))}>
+                            onChange={(element) => setUserData(values => ({ ...values, userName: element.target.value }))}
+                            data-test="client-name">
                         </input>
                         <h1>CPF do comprador</h1>
                         <input
                             type='number'
                             value={userData.userDocument}
                             placeholder="Digite o seu CPF..."
-                            onChange={(element) => setUserData(values => ({ ...values, userDocument: element.target.value }))}>
+                            onChange={(element) => setUserData(values => ({ ...values, userDocument: element.target.value }))}
+                            data-test="client-cpf">
                         </input>
                     </form>
             </InputContainer>
             <ReserveContainer to="/sucesso">
                 <ReserveButton
                     onClick={() => MakeReserve()}
-                    disabled={((userData.userName === ''||userData.userDocument.length < 7||userData.seats.length === 0) && true)}>
+                    disabled={((userData.userName === ''||userData.userDocument.length < 7||userData.seats.length === 0) && true)}
+                    data-test="book-seat-btn">
                     Reservar assento(s)
                 </ReserveButton>
             </ReserveContainer>
-            <Footer>
+            <Footer data-test="footer">
                 <img src={userData.movieSelected.posterURL} alt='poster' />
                 <h1>{userData.movieSelected.title}</h1>
             </Footer>

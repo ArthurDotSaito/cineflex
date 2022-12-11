@@ -11,18 +11,18 @@ const EndPage = ({userData, setUserData}) =>{
     return(
         <EndPageContainer>
             <h1>Pedido feito com sucesso!</h1>
-            <MovieAndSessionContainer>
+            <MovieAndSessionContainer data-test="movie-info">
                 <h1>Filme e sessão</h1>
                 <h3>{userData.movieSelected.title}</h3>
                 <h3>{userData.day} {userData.hour}</h3>
             </MovieAndSessionContainer>
-            <TicketDetailContainer>
+            <TicketDetailContainer data-test="seats-info">
                 <h1>Ingresso(s)</h1>
                 {userData.seats.map((seat) => (
                     <h3 key={seat}>Assento {seat}</h3>
                 ))}
             </TicketDetailContainer>
-            <UserNameBuyerContainer>
+            <UserNameBuyerContainer data-test="client-info">
                 <h1>Comprador</h1>
                 <h3>Nome: {userData.userName}</h3>
                 <h3>CPF:{userData.userDocument}</h3>
@@ -31,7 +31,8 @@ const EndPage = ({userData, setUserData}) =>{
                 to="/"
                 onClick={() => {
                     setUserData({movieSelected: "", day:"", hour:"", seats:[], userName:[], userDocument:[], reserved:false})
-                }}>
+                }}
+                data-test="go-home-btn">
                 <ReturnToHomeButton>Voltar para home</ReturnToHomeButton>
             </ReturnToHomeContainer>
         </EndPageContainer>

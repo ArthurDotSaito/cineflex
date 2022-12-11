@@ -23,11 +23,15 @@ const MovieSession = ({userData, setUserData}) => {
                 <h1>Selecione o horário</h1>
                 <SessionTime>
                     {movieSessionData.days.map((element) =>
-                        <SessionTimeDate key={element.id}>
+                        <SessionTimeDate 
+                            key={element.id}
+                            data-test="movie-day">
                             <h2>{element.weekday} - {element.date}</h2>
                             <SessionTimeHourContainer>
                                 {element.showtimes.map(e =>
-                                    <Link to={`/assentos/${e.id}`} >
+                                    <Link 
+                                        to={`/assentos/${e.id}`}
+                                        data-test="showtime" >
                                         <SessionHour 
                                             onClick={() => setUserData(values => ({...values, day: element.date, hour:e.name}))}>
                                             {e.name}
@@ -38,7 +42,7 @@ const MovieSession = ({userData, setUserData}) => {
                         </SessionTimeDate>
                     )}
                 </SessionTime>
-                <Footer>
+                <Footer data-test="footer">
                     <img src={userData.movieSelected.posterURL} alt='poster' />
                     <h1>{userData.movieSelected.title}</h1>
                 </Footer>
