@@ -5,13 +5,13 @@ import { Link, useParams } from "react-router-dom";
 
 const MovieSession = ({setUserData}) => {
 
-    const { idMovie } = useParams();
+    const { idFilmes } = useParams();
     const [movieSessionData, setMovieSessionData] = React.useState(null);
 
     useEffect(() => {
-        const movieSessionPromise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idMovie}/showtimes`);
+        const movieSessionPromise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilmes}/showtimes`);
         movieSessionPromise.then(response => { setMovieSessionData(response.data) })
-    }, [idMovie])
+    }, [idFilmes])
 
     if (movieSessionData === null) {
         return "Loading";
@@ -27,7 +27,7 @@ const MovieSession = ({setUserData}) => {
                             <h2>{element.weekday} - {element.date}</h2>
                             <SessionTimeHourContainer>
                                 {element.showtimes.map(e =>
-                                    <Link to={`/assentos/:idSessao`} >
+                                    <Link to={`/assentos/${e.id}`} >
                                         <SessionHour 
                                             onClick={() => setUserData(values => ({...values, day: element.date, hour:e.name}))}>
                                             {e.name}

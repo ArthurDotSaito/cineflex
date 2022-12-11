@@ -9,7 +9,7 @@ import GlobalStyle from './styles/globalStyles';
 
 
 function App() {
-  const [userData, setUserData] = React.useState({movieSelected: "", day:"", hour: "", seats:[], userName:[], useDocument:[]})
+  const [userData, setUserData] = React.useState({movieSelected: "", day:"", hour: "", seats:[], userName:[], userDocument:[]})
 
   return (
     <BrowserRouter>
@@ -24,7 +24,7 @@ function App() {
               </Movies>}>
           </Route>
           <Route 
-            path="/sessoes/:idMovie" 
+            path="/sessoes/:idFilmes" 
             element={<MovieSession 
               userData={userData} 
               setUserData={setUserData}>
@@ -33,7 +33,7 @@ function App() {
           <Route 
             path="/assentos/:idSessao" 
             element={<MovieSeats 
-              useData={userData}
+              userData={userData}
               setUserData={setUserData}>
               </MovieSeats>}>
           </Route>
