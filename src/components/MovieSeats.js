@@ -126,7 +126,10 @@ const MovieSeats = ({userData, setUserData}) =>{
             </ReserveContainer>
             <Footer data-test="footer">
                 <img src={userData.movieSelected.posterURL} alt='poster' />
-                <h1>{userData.movieSelected.title}</h1>
+                <SessionDetailsContainer>
+                    <h1>{userData.movieSelected.title}</h1>
+                    <h1>{userData.day} {userData.hour}</h1>
+                </SessionDetailsContainer>
             </Footer>
         </MovieSeatsContainer>
 
@@ -241,10 +244,12 @@ const Footer = styled.footer`
     align-items: center;
     background-color: #9EADBA;
     border: 1px solid #9EADBA;
+    margin-left: 10px;
     position: fixed;
     bottom: 0;
     left: 0;
     h1{
+        height: 40px;
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
         font-size: 26px;
@@ -254,5 +259,13 @@ const Footer = styled.footer`
         height: 100px;
         margin-left: 10px;
     }
+`
+
+const SessionDetailsContainer=styled.section`
+    width: 290px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
 `
 export default MovieSeats;
