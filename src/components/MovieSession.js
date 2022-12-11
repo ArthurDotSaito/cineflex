@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const MovieSession = ({setUserData}) => {
+const MovieSession = ({userData, setUserData}) => {
 
     const { idFilmes } = useParams();
     const [movieSessionData, setMovieSessionData] = React.useState(null);
@@ -39,8 +39,8 @@ const MovieSession = ({setUserData}) => {
                     )}
                 </SessionTime>
                 <Footer>
-                    <img src={movieSessionData.posterURL} alt='poster' />
-                    <h1>{movieSessionData.title}</h1>
+                    <img src={userData.movieSelected.posterURL} alt='poster' />
+                    <h1>{userData.movieSelected.title}</h1>
                 </Footer>
             </MovieSessionContainer>
         </>
@@ -53,6 +53,7 @@ const MovieSessionContainer = styled.div`
     display:flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
     h1{
         display: flex;
         align-items: center;
@@ -71,6 +72,7 @@ const SessionTime = styled.ul`
     width: 100%;
     display: block;
     margin-left: 25px;
+    margin-bottom: 120px;
     h2{
         width: 100%;
         min-height: 35px;
@@ -115,6 +117,9 @@ const Footer = styled.footer`
     align-items: center;
     background-color: #9EADBA;
     border: 1px solid #9EADBA;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     h1{
         font-family: 'Roboto', sans-serif;
         font-weight: 400;

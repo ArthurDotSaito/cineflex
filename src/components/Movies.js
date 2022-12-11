@@ -26,7 +26,7 @@ return(
             <MoviePost key={moviePost.id}>
                 <Link 
                     to={`/sessoes/${moviePost.id}`}
-                    onClick={() => {setUserData(values => ({...values, movieSelected:moviePost}))}}>
+                    onClick={() => {setUserData(values => ({...values, movieSelected: moviePost}))}}>
                     <img 
                         src = {moviePost.posterURL} alt="movie-post-link">
                     </img>

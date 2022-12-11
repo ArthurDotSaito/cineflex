@@ -6,10 +6,12 @@ import Movies from './components/Movies';
 import MovieSession from './components/MovieSession';
 import MovieSeats from './components/MovieSeats';
 import GlobalStyle from './styles/globalStyles';
+import EndPage from './components/EndingPage';
 
 
 function App() {
   const [userData, setUserData] = React.useState({movieSelected: "", day:"", hour: "", seats:[], userName:[], userDocument:[], reserved: false})
+  console.log(userData)
 
   return (
     <BrowserRouter>
@@ -20,6 +22,7 @@ function App() {
           <Route 
             path="/" 
             element={<Movies 
+              userData = {userData}
               setUserData={setUserData}>  
               </Movies>}>
           </Route>
@@ -36,6 +39,13 @@ function App() {
               userData={userData}
               setUserData={setUserData}>
               </MovieSeats>}>
+          </Route>
+          <Route
+            path="/sucesso"
+            element={<EndPage
+              userData={userData}
+              setUserData={setUserData}>
+            </EndPage>}>
           </Route>
         </Routes>
       </AppMainContainer>

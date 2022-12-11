@@ -1,12 +1,13 @@
 import axios from "axios";
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const MovieSeats = ({userData, setUserData}) =>{
     const { idSessao } = useParams();
     const [seatList, setSeatList] = React.useState([]);
     const [selectedSeats, setSelectedSeats] = React.useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const seatListPromise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -49,7 +50,7 @@ const MovieSeats = ({userData, setUserData}) =>{
         </SeatsContainer>
     )) 
 
-    function makeReserve(){
+    function MakeReserve(){
         const reserveDetails = {
             ids: seatList,
             name: userData.userName,
@@ -108,13 +109,17 @@ const MovieSeats = ({userData, setUserData}) =>{
                         </input>
                     </form>
             </InputContainer>
-            <ReserveContainer to ="/sucesso">
+            <ReserveContainer to="/sucesso">
                 <ReserveButton
-                    onClick={() => makeReserve()}
+                    onClick={() => MakeReserve()}
                     disabled={((userData.userName === ''||userData.userDocument.length < 7||userData.seats.length === 0) && true)}>
                     Reservar assento(s)
                 </ReserveButton>
             </ReserveContainer>
+            <Footer>
+                <img src={userData.movieSelected.posterURL} alt='poster' />
+                <h1>{userData.movieSelected.title}</h1>
+            </Footer>
         </MovieSeatsContainer>
 
     )
@@ -223,7 +228,30 @@ const ReserveButton = styled.button`
     font-size: 18px;
     line-height: 18px;
     letter-spacing: 4%;
+    margin-bottom: 150px;
     cursor: pointer;
+`
+const Footer = styled.footer`
+    width: 100%;
+    height: 117px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #9EADBA;
+    border: 1px solid #9EADBA;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    h1{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        line-height: 30px;
+    }
+    img{
+        height: 100px;
+        margin-left: 10px;
+    }
 `
 
 export default MovieSeats;
