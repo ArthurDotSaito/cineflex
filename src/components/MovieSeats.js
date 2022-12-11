@@ -19,15 +19,12 @@ const MovieSeats = ({userData, setUserData}) =>{
         return "Loading..."
     }
     
-
     function selectSeat(seatName, seatIsAvailable){
 
         if(!seatIsAvailable){
             alert("Assento não disponivel!")
             return;
         }if(userData.seats.includes(seatName)){
-/*             const seatsSelected = [...userData.seats]
-            seatsSelected.splice(userData.seats.indexOf(seatName), 1); */
             const seatsSelected = userData.seats.filter((e) => e !== seatName);
             const newSelectedSeats = [...selectedSeats];
             setUserData(value => ({...value, seats: seatsSelected}));
@@ -56,7 +53,22 @@ const MovieSeats = ({userData, setUserData}) =>{
         <MovieSeatsContainer>
             <h1>Selecione o(s) assentos</h1>
             <SeatList>{ListofSeats}</SeatList>
+            <StatusList>
+                <li>
+                    <SeatsContainer isSelected ={true}></SeatsContainer>
+                    Selecionado
+                </li>
+                <li>
+                    <SeatsContainer available = {true}></SeatsContainer>
+                    Disponível
+                </li>
+                <li>
+                    <SeatsContainer available = {false}></SeatsContainer>
+                    Indisponível
+                </li>
+            </StatusList>
         </MovieSeatsContainer>
+
     )
 }
 const MovieSeatsContainer = styled.main`
@@ -82,6 +94,8 @@ const MovieSeatsContainer = styled.main`
 `
 
 const SeatList = styled.ul`
+    width: 450px;
+    height: 220px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -89,8 +103,8 @@ const SeatList = styled.ul`
 `
 
 const SeatsContainer = styled.button`
-    width: 25px;
-    height: 25px;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,6 +121,24 @@ const SeatsContainer = styled.button`
     line-height: 13px;
     letter-spacing: 4%;
     color: #000000;
+`
+
+const StatusList = styled.ul`
+    width: 80%;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: 1.3%;
+    li{
+        display: flex;
+        flex-direction: column;
+        align-items:center
+    }
 `
 
 export default MovieSeats;
