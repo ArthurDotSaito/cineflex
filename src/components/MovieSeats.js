@@ -1,13 +1,12 @@
 import axios from "axios";
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const MovieSeats = ({userData, setUserData}) =>{
     const { idSessao } = useParams();
     const [seatList, setSeatList] = React.useState([]);
     const [selectedSeats, setSelectedSeats] = React.useState([]);
-    console.log(idSessao);
 
     useEffect(() => {
         const seatListPromise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -22,7 +21,7 @@ const MovieSeats = ({userData, setUserData}) =>{
     function selectSeat(seatName, seatIsAvailable){
 
         if(!seatIsAvailable){
-            alert("Assento não disponivel!")
+            alert("Assento não disponivel!");
             return;
         }if(userData.seats.includes(seatName)){
             const seatsSelected = userData.seats.filter((e) => e !== seatName);
@@ -45,9 +44,24 @@ const MovieSeats = ({userData, setUserData}) =>{
             available = {seat.isAvailable}
             isSelected = {selectedSeats[seat.name]}
             onClick = {() => {selectSeat(seat.name, seat.isAvailable)}}
+            cursor={true}
             >{seat.name}
         </SeatsContainer>
     )) 
+
+    function makeReserve(){
+        const reserveDetails = {
+            ids: seatList,
+            name: userData.userName,
+            cpf:userData.userDocument
+        }
+
+        const reserve = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, reserveDetails);
+        reserve.then(() => {setUserData(values => ({...values, reserved: true}))});
+    }
+
+    console.log(userData.reserved)
+
 
     return(
         <MovieSeatsContainer>
@@ -55,18 +69,52 @@ const MovieSeats = ({userData, setUserData}) =>{
             <SeatList>{ListofSeats}</SeatList>
             <StatusList>
                 <li>
-                    <SeatsContainer isSelected ={true}></SeatsContainer>
+                    <SeatsContainer 
+                        isSelected ={true}
+                        cursor={false}>  
+                    </SeatsContainer>
                     Selecionado
                 </li>
                 <li>
-                    <SeatsContainer available = {true}></SeatsContainer>
+                    <SeatsContainer 
+                        available = {true}
+                        cursor={false}>
+                    </SeatsContainer>
                     Disponível
                 </li>
                 <li>
-                    <SeatsContainer available = {false}></SeatsContainer>
+                    <SeatsContainer    
+                        available = {false}
+                        cursor={false}>
+                    </SeatsContainer>
                     Indisponível
                 </li>
             </StatusList>
+            <InputContainer>
+                    <form>
+                        <h1>Nome do comprador</h1>
+                        <input
+                            type='text'
+                            value={userData.userName}
+                            placeholder="Digite o seu nome..."
+                            onChange={(element) => setUserData(values => ({ ...values, userName: element.target.value }))}>
+                        </input>
+                        <h1>CPF do comprador</h1>
+                        <input
+                            type='number'
+                            value={userData.userDocument}
+                            placeholder="Digite o seu CPF..."
+                            onChange={(element) => setUserData(values => ({ ...values, userDocument: element.target.value }))}>
+                        </input>
+                    </form>
+            </InputContainer>
+            <ReserveContainer to ="/sucesso">
+                <ReserveButton
+                    onClick={() => makeReserve()}
+                    disabled={((userData.userName === ''||userData.userDocument.length < 7||userData.seats.length === 0) && true)}>
+                    Reservar assento(s)
+                </ReserveButton>
+            </ReserveContainer>
         </MovieSeatsContainer>
 
     )
@@ -121,6 +169,7 @@ const SeatsContainer = styled.button`
     line-height: 13px;
     letter-spacing: 4%;
     color: #000000;
+    cursor: ${props => (props.cursor) ? "pointer":"default"};
 `
 
 const StatusList = styled.ul`
@@ -139,6 +188,42 @@ const StatusList = styled.ul`
         flex-direction: column;
         align-items:center
     }
+`
+
+const InputContainer = styled.section`
+    width: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    input{
+        width: 100%;
+        height: 50px;
+        font-size: 18px;
+        border: 1px solid #D5D5D5;
+        border-radius: 3px;
+    }
+`
+
+const ReserveContainer = styled(Link)`
+    width: auto;
+`
+
+const ReserveButton = styled.button`
+    width: 225px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    background-color: #E8833A;
+    border: none;
+    border-radius: 3px;
+    margin: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: 4%;
+    cursor: pointer;
 `
 
 export default MovieSeats;

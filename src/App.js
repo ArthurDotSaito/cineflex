@@ -9,7 +9,7 @@ import GlobalStyle from './styles/globalStyles';
 
 
 function App() {
-  const [userData, setUserData] = React.useState({movieSelected: "", day:"", hour: "", seats:[], userName:[], userDocument:[]})
+  const [userData, setUserData] = React.useState({movieSelected: "", day:"", hour: "", seats:[], userName:[], userDocument:[], reserved: false})
 
   return (
     <BrowserRouter>
