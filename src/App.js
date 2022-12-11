@@ -10,8 +10,7 @@ import EndPage from './components/EndingPage';
 
 
 function App() {
-  const [userData, setUserData] = React.useState({movieSelected: "", day:"", hour: "", seats:[], userName:[], userDocument:[], reserved: false})
-  console.log(userData)
+  const [userData, setUserData] = React.useState({movieSelected: "", day:"", hour: "", seats:[], seatID:[], userName:[], userDocument:[], reserved: false})
 
   return (
     <BrowserRouter>

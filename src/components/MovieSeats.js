@@ -6,8 +6,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 const MovieSeats = ({userData, setUserData}) =>{
     const { idSessao } = useParams();
     const [seatList, setSeatList] = React.useState([]);
+    const [seatListID, setSeatListID] = React.useState([]);
     const [selectedSeats, setSelectedSeats] = React.useState([]);
-    const navigate = useNavigate();
+    const [selectSeatsIDS, setSelectedSeatsID] = React.useState([]);
 
     useEffect(() => {
         const seatListPromise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -19,32 +20,38 @@ const MovieSeats = ({userData, setUserData}) =>{
         return "Loading..."
     }
     
-    function selectSeat(seatName, seatIsAvailable){
-
+      function selectSeat(seatName, seatIsAvailable, seatID){
         if(!seatIsAvailable){
             alert("Assento não disponivel!");
             return;
-        }if(userData.seats.includes(seatName)){
-            const seatsSelected = userData.seats.filter((e) => e !== seatName);
+        }
+        if(userData.seats.includes(seatName)){
+            const seatsSelected = [...userData.seats];
+            const seatsSelectedID = [...seatListID];
+            seatsSelected.splice(userData.seats.indexOf(seatName), 1)
+            seatsSelectedID.splice(userData.seats.indexOf(seatID), 1)
+            setUserData((values) =>({...values, seats: seatsSelected}))
+            setSeatListID(seatsSelectedID);
             const newSelectedSeats = [...selectedSeats];
-            setUserData(value => ({...value, seats: seatsSelected}));
-            newSelectedSeats[seatName] = false;
+            newSelectedSeats[seatName - 1] = false;
             setSelectedSeats(newSelectedSeats);
         }else{
             const seatsSelected = [...userData.seats, seatName];
+            const seatsSelectedID = [...seatListID, seatID];
+            setUserData((values) =>({...values, seats: seatsSelected}));
+            setSeatListID(seatsSelectedID);
             const newSelectedSeats = [...selectedSeats];
-            setUserData(value => ({...value, seats: seatsSelected}));
-            newSelectedSeats[seatName] = true;
+            newSelectedSeats[seatName - 1] = true;
             setSelectedSeats(newSelectedSeats);
         }
-    }
+      }
 
-    const ListofSeats = seatList.seats.map((seat) => (
+    const ListofSeats = seatList.seats.map(seat => (
         <SeatsContainer
             key = {seat.id}
             available = {seat.isAvailable}
-            isSelected = {selectedSeats[seat.name]}
-            onClick = {() => {selectSeat(seat.name, seat.isAvailable)}}
+            isSelected = {selectedSeats[seat.name - 1]}
+            onClick = {() => {selectSeat(seat.name, seat.isAvailable, seat.id)}}
             cursor={true}
             >{seat.name}
         </SeatsContainer>
@@ -52,17 +59,14 @@ const MovieSeats = ({userData, setUserData}) =>{
 
     function MakeReserve(){
         const reserveDetails = {
-            ids: seatList,
+            ids: seatListID,
             name: userData.userName,
-            cpf:userData.userDocument
+            cpf: userData.userDocument
         }
 
         const reserve = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, reserveDetails);
         reserve.then(() => {setUserData(values => ({...values, reserved: true}))});
     }
-
-    console.log(userData.reserved)
-
 
     return(
         <MovieSeatsContainer>
@@ -145,7 +149,6 @@ const MovieSeatsContainer = styled.main`
     }
 
 `
-
 const SeatList = styled.ul`
     width: 450px;
     height: 220px;
@@ -154,7 +157,6 @@ const SeatList = styled.ul`
     flex-wrap: wrap;
     padding: 0 5%;
 `
-
 const SeatsContainer = styled.button`
     width: 26px;
     height: 26px;
@@ -176,7 +178,6 @@ const SeatsContainer = styled.button`
     color: #000000;
     cursor: ${props => (props.cursor) ? "pointer":"default"};
 `
-
 const StatusList = styled.ul`
     width: 80%;
     height: 80px;
@@ -194,7 +195,6 @@ const StatusList = styled.ul`
         align-items:center
     }
 `
-
 const InputContainer = styled.section`
     width: 90%;
     display: flex;
@@ -208,11 +208,9 @@ const InputContainer = styled.section`
         border-radius: 3px;
     }
 `
-
 const ReserveContainer = styled(Link)`
     width: auto;
 `
-
 const ReserveButton = styled.button`
     width: 225px;
     height: 45px;
@@ -253,5 +251,4 @@ const Footer = styled.footer`
         margin-left: 10px;
     }
 `
-
 export default MovieSeats;
