@@ -44,7 +44,10 @@ const MovieSession = ({userData, setUserData}) => {
                 </SessionTime>
                 <Footer data-test="footer">
                     <img src={userData.movieSelected.posterURL} alt='poster' />
-                    <h1>{userData.movieSelected.title}</h1>
+                    <SessionDetailsContainer>
+                        <h1>{userData.movieSelected.title}</h1>
+                        <h1>{userData.day} {userData.hour}</h1>
+                    </SessionDetailsContainer>
                 </Footer>
             </MovieSessionContainer>
         </>
@@ -58,12 +61,12 @@ const MovieSessionContainer = styled.div`
     flex-direction: column;
     align-items: center;
     position: relative;
+    margin-left: 10px;
     h1{
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
-        min-height: 110px;
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
         font-size: 24px;
@@ -110,7 +113,7 @@ const SessionHour = styled.button`
     line-height: 21px;
     letter-spacing: 2%;
     color:#FFFFFF;
-    
+    cursor: pointer;
 `
 
 const Footer = styled.footer`
@@ -121,10 +124,12 @@ const Footer = styled.footer`
     align-items: center;
     background-color: #9EADBA;
     border: 1px solid #9EADBA;
+    margin-left: 10px;
     position: fixed;
     bottom: 0;
     left: 0;
     h1{
+        height: 40px;
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
         font-size: 26px;
@@ -135,4 +140,20 @@ const Footer = styled.footer`
         margin-left: 10px;
     }
 `
+
+const SessionDetailsContainer=styled.section`
+    width: 290px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+    h1{
+        height: 40px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        line-height: 30px;
+    }
+`
+
 export default MovieSession;
