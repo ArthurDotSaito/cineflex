@@ -9,7 +9,8 @@ const location = useLocation();
     return(
         <HeaderTitleContainer>
             <button
-                onClick={() =>{navitage(-1)}}>
+                onClick={() =>{navitage(-1)}}
+                data-test="go-home-header-btn">
             {location.pathname !== "/" && <BsArrowLeft/>}
             </button>
             CINEFLEX
